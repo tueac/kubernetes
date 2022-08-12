@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: web 
+  name: web
+  namespace: test
+spec:
+  containers:
+  - image: nginx:1.14
+    name: web
+    imagePullPolicy: IfNotPresent
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    test: web
+  name: myweb
+  namespace: test
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    test: web
+  type: NodePort
